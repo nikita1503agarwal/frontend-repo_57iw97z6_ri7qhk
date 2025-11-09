@@ -1,59 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export function LearnView() {
+export const LearnView = () => {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <h2 className="text-xl font-extrabold text-emerald-800">Learning Modules</h2>
-      <p className="text-emerald-800/80">Choose a category to start your eco journey.</p>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {['Recycling 101', 'Clean Energy', 'Water Savers', 'Eco Facts Quiz'].map((t) => (
-          <div key={t} className="rounded-2xl border border-emerald-100 bg-white p-4 shadow-sm">
-            <div className="text-sm font-semibold text-emerald-700">{t}</div>
-            <div className="mt-1 text-xs text-emerald-700/70">5–10 min • +50 points</div>
-            <button className="mt-3 rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-700">Open</button>
-          </div>
+    <div className="px-4 pb-24">
+      <h2 className="text-xl font-semibold text-emerald-900">Learning Hub</h2>
+      <p className="mt-1 text-emerald-800/80">Choose a category to start your eco‑journey.</p>
+      <div className="mt-4 grid grid-cols-2 gap-3">
+        {['Clean Planet', 'Sorting Waste', 'Upcycling', 'Energy Savers'].map((c) => (
+          <button key={c} className="rounded-2xl bg-white p-4 text-left shadow ring-1 ring-black/5">
+            <span className="block text-sm font-semibold text-emerald-900">{c}</span>
+            <span className="text-xs text-emerald-800/70">0% complete</span>
+          </button>
         ))}
       </div>
     </div>
   );
-}
+};
 
-export function BuilderView() {
+export const BuilderView = () => {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <h2 className="text-xl font-extrabold text-emerald-800">3D Builder (Preview)</h2>
-      <p className="text-emerald-800/80">Create simple eco products. A full Babylon.js canvas will live here.</p>
-      <div className="mt-4 h-56 rounded-2xl border border-emerald-100 bg-emerald-50" />
+    <div className="px-4 pb-24">
+      <h2 className="text-xl font-semibold text-emerald-900">3D Builder</h2>
+      <p className="mt-1 text-emerald-800/80">Create your first eco tile. Coming soon!</p>
+      <div className="mt-4 h-48 rounded-2xl bg-gradient-to-br from-emerald-50 to-amber-50" />
     </div>
   );
-}
+};
 
-export function ContestsView() {
+export const ContestsView = () => {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <h2 className="text-xl font-extrabold text-emerald-800">Monthly Contests</h2>
-      <p className="text-emerald-800/80">Submit creations and vote for favorites.</p>
-      <div className="mt-4 rounded-2xl border border-emerald-100 bg-white p-4 shadow-sm">Theme: Upcycle Magic ✨</div>
+    <div className="px-4 pb-24">
+      <h2 className="text-xl font-semibold text-emerald-900">Contests</h2>
+      <p className="mt-1 text-emerald-800/80">Join monthly art tile contests and win badges.</p>
+      <div className="mt-4 grid grid-cols-1 gap-3">
+        <div className="rounded-2xl bg-white p-4 shadow ring-1 ring-black/5">
+          <div className="text-sm font-semibold">Eco Tiles: Spring</div>
+          <div className="text-xs text-emerald-800/70">Opens next week • Age 6–12</div>
+        </div>
+      </div>
     </div>
   );
-}
+};
 
-export function MapView() {
+export const MapView = () => {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <h2 className="text-xl font-extrabold text-emerald-800">Eco Map</h2>
-      <p className="text-emerald-800/80">Nearby parks, schools, and missions will appear here.</p>
-      <div className="mt-4 h-56 rounded-2xl border border-emerald-100 bg-emerald-50" />
+    <div className="px-4 pb-24">
+      <h2 className="text-xl font-semibold text-emerald-900">Module Map</h2>
+      <p className="mt-1 text-emerald-800/80">Track your learning path across themed islands.</p>
+      <div className="mt-4 h-56 rounded-2xl bg-emerald-50" />
     </div>
   );
-}
+};
 
-export function ProfileView() {
+export const ProfileView = () => {
+  const [hasProfile] = useState(false);
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <h2 className="text-xl font-extrabold text-emerald-800">Your Profile</h2>
-      <p className="text-emerald-800/80">Nickname, avatar, age group, and achievements are shown here.</p>
-      <div className="mt-4 rounded-2xl border border-emerald-100 bg-white p-4 shadow-sm">Sign in to sync progress across devices.</div>
+    <div className="px-4 pb-24">
+      <h2 className="text-xl font-semibold text-emerald-900">Profile</h2>
+      {!hasProfile ? (
+        <div className="mt-3 rounded-2xl bg-white p-4 shadow ring-1 ring-black/5">
+          <p className="text-sm text-emerald-800/80">Create a child profile to personalize learning.</p>
+        </div>
+      ) : (
+        <div className="mt-3 rounded-2xl bg-white p-4 shadow ring-1 ring-black/5">
+          <p>Your profile details will appear here.</p>
+        </div>
+      )}
     </div>
   );
-}
+};

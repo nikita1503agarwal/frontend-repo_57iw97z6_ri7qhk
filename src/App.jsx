@@ -1,27 +1,15 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import HeroSpline from './components/HeroSpline';
 import FeatureCards from './components/FeatureCards';
 import CTAInstall from './components/CTAInstall';
 import BottomNav from './components/BottomNav';
-import { BuilderView, ContestsView, LearnView, MapView, ProfileView } from './components/Views';
+import { LearnView, BuilderView, ContestsView, MapView, ProfileView } from './components/Views';
 
-function SafeBadge() {
-  return (
-    <div className="mx-auto max-w-6xl px-4 pb-24 pt-4">
-      <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-emerald-800">
-        <p className="text-sm">
-          EcoKids is part of the ZAMINAT.eco ecosystem. We protect kids’ privacy, require parental consent, and moderate all user content.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-export default function App() {
+function App() {
   const [tab, setTab] = useState('learn');
-
-  // PWA install prompt capture
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const installAvailable = Boolean(deferredPrompt);
+
   useEffect(() => {
     const handler = (e) => {
       e.preventDefault();
@@ -31,29 +19,19 @@ export default function App() {
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
 
-  const handleInstall = useCallback(async () => {
+  const handleInstall = async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
-    const choice = await deferredPrompt.userChoice;
-    if (choice.outcome === 'accepted') {
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome) {
       setDeferredPrompt(null);
     }
-  }, [deferredPrompt]);
+  };
 
-  const Content = useMemo(() => {
+  const view = useMemo(() => {
     switch (tab) {
       case 'learn':
-        return (
-          <>
-            <HeroSpline
-              onStartLearning={() => setTab('learn')}
-              onOpenBuilder={() => setTab('builder')}
-              onInstall={handleInstall}
-              onAbout={() => setTab('profile')}
-            />
-            <FeatureCards />
-          </>
-        );
+        return <LearnView />;
       case 'builder':
         return <BuilderView />;
       case 'contests':
@@ -65,14 +43,28 @@ export default function App() {
       default:
         return <LearnView />;
     }
-  }, [tab, handleInstall]);
+  }, [tab]);
 
   return (
-    <div className="min-h-screen bg-white text-emerald-900 pb-24">
-      {Content}
-      <CTAInstall onInstall={handleInstall} />
-      <SafeBadge />
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white pb-20">
+      <HeroSpline
+        onStartLearning={() => setTab('learn')}
+        onOpenBuilder={() => setTab('builder')}
+        onInstall={handleInstall}
+        onAbout={() => setTab('profile')}
+      />
+
+      <FeatureCards />
+
+      <main className="mx-auto max-w-5xl">
+        {view}
+      </main>
+
+      <CTAInstall onInstall={handleInstall} available={installAvailable} />
+
       <BottomNav current={tab} onChange={setTab} />
     </div>
   );
 }
+
+export default App;
