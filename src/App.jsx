@@ -3,12 +3,23 @@ import HeroSpline from './components/HeroSpline';
 import FeatureCards from './components/FeatureCards';
 import CTAInstall from './components/CTAInstall';
 import BottomNav from './components/BottomNav';
+import OnboardingWizard from './components/OnboardingWizard';
 import { LearnView, BuilderView, ContestsView, MapView, ProfileView } from './components/Views';
 
 function App() {
   const [tab, setTab] = useState('learn');
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [profile, setProfile] = useState(() => {
+    try {
+      const raw = localStorage.getItem('ecokids.profile');
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  });
+
   const installAvailable = Boolean(deferredPrompt);
+  const apiBase = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
   useEffect(() => {
     const handler = (e) => {
@@ -28,6 +39,13 @@ function App() {
     }
   };
 
+  const handleOnboardingComplete = (data) => {
+    setProfile(data);
+    try {
+      localStorage.setItem('ecokids.profile', JSON.stringify(data));
+    } catch {}
+  };
+
   const view = useMemo(() => {
     switch (tab) {
       case 'learn':
@@ -39,11 +57,11 @@ function App() {
       case 'map':
         return <MapView />;
       case 'profile':
-        return <ProfileView />;
+        return <ProfileView profile={profile} />;
       default:
         return <LearnView />;
     }
-  }, [tab]);
+  }, [tab, profile]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white pb-20">
@@ -56,13 +74,15 @@ function App() {
 
       <FeatureCards />
 
-      <main className="mx-auto max-w-5xl">
-        {view}
-      </main>
+      <main className="mx-auto max-w-5xl">{view}</main>
 
       <CTAInstall onInstall={handleInstall} available={installAvailable} />
 
       <BottomNav current={tab} onChange={setTab} />
+
+      {!profile && (
+        <OnboardingWizard onComplete={handleOnboardingComplete} apiBase={apiBase} />
+      )}
     </div>
   );
 }
