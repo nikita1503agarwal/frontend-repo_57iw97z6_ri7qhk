@@ -1,7 +1,7 @@
 import React from 'react';
 import Spline from '@splinetool/react-spline';
 
-export default function HeroSpline() {
+export default function HeroSpline({ onStartLearning, onOpenBuilder, onInstall, onAbout }) {
   return (
     <section className="relative w-full overflow-hidden bg-gradient-to-b from-emerald-50 via-white to-white">
       <div className="mx-auto max-w-6xl px-4 pt-6 pb-4">
@@ -11,8 +11,8 @@ export default function HeroSpline() {
             <span className="font-extrabold text-2xl tracking-tight text-emerald-700">EcoKids</span>
           </div>
           <div className="hidden sm:flex items-center gap-3">
-            <button className="rounded-full bg-white/70 px-4 py-2 text-sm font-semibold text-emerald-700 shadow-sm ring-1 ring-emerald-200 backdrop-blur hover:bg-white">About</button>
-            <button className="rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">Install PWA</button>
+            <button onClick={onAbout} className="rounded-full bg-white/70 px-4 py-2 text-sm font-semibold text-emerald-700 shadow-sm ring-1 ring-emerald-200 backdrop-blur hover:bg-white">About</button>
+            <button onClick={onInstall} className="rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">Install PWA</button>
           </div>
         </div>
       </div>
@@ -27,10 +27,10 @@ export default function HeroSpline() {
               Play mini‑games, complete real‑world eco missions, and design creative 3D projects. Earn points, unlock badges, and climb the leaderboard!
             </p>
             <div className="mt-5 flex flex-wrap items-center gap-3">
-              <button className="rounded-xl bg-emerald-600 px-5 py-3 text-white font-semibold shadow hover:bg-emerald-700">
+              <button onClick={onStartLearning} className="rounded-xl bg-emerald-600 px-5 py-3 text-white font-semibold shadow hover:bg-emerald-700">
                 Start Learning
               </button>
-              <button className="rounded-xl bg-white px-5 py-3 text-emerald-700 font-semibold shadow ring-1 ring-emerald-200 hover:bg-emerald-50">
+              <button onClick={onOpenBuilder} className="rounded-xl bg-white px-5 py-3 text-emerald-700 font-semibold shadow ring-1 ring-emerald-200 hover:bg-emerald-50">
                 Open 3D Builder
               </button>
             </div>
@@ -43,7 +43,7 @@ export default function HeroSpline() {
           <div className="order-1 md:order-2">
             <div className="relative h-[320px] sm:h-[380px] md:h-[460px] rounded-3xl border border-emerald-100 bg-white shadow-inner">
               <Spline
-                scene="https://prod.spline.design/95Gu7tsx2K-0F3oi/scene.splinecode"
+                scene="https://prod.spline.design/VJLoxp84lCdVfdZu/scene.splinecode"
                 style={{ width: '100%', height: '100%' }}
               />
               <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-t from-white/40 via-transparent to-white/10" />
